@@ -865,6 +865,8 @@ git archive commit_hash --remote=repository_alias -o archive_name.tar
 git archive commit_hash --remote=repository_alias --exec=command_name
 
 #.gitignore: a file where we write patterns to be ignored, it is located in the root of the repository
+
+# Pattern             # ignored files                  # Not ignored
 **/logs               logs/debug.log
                     logs/monday/foo.bar
                     build/logs/debug.log
@@ -934,6 +936,12 @@ logs/*day/debug.log     logs/monday/debug.log
 logs/debug.log          logs/debug.log                      debug.log 
                                                             build/logs/debug.log
 
+# git check-ignore: For each pathname given via the command-line or from a file via --stdin, check whether the file is excluded by .gitignore (or other input files to the exclude mechanism) and output the path if it is excluded.
+git check-ignore file_name
+# -v, --verbose: Instead of printing the paths that are excluded, for each path that matches an exclude pattern, print the exclude pattern together with the path. (Matching an exclude pattern usually means the path is excluded, but if the pattern begins with "!" then it is a negated pattern and matching it means the path is NOT excluded.)
+git check-ignore -v file_name1 file_name2
+git check-ignore --verbose file_pattern1 file_pattern2
+
 # https://www.toptal.com/developers/gitignore
 
 # https://github.com/github/gitignore
@@ -947,3 +955,9 @@ logs/debug.log          logs/debug.log                      debug.log
 # https://www.hostinger.mx/tutoriales/comandos-de-git
 
 # https://github.com/jocode/Getting-Started/blob/master/git_cmd.md
+
+#https://www.atlassian.com/es/git/tutorials/using-branches/merge-strategy
+
+# https://www.atlassian.com/es/git/tutorials/comparing-workflows
+
+# https://nvie.com/posts/a-successful-git-branching-model/
