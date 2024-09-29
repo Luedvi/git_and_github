@@ -5,6 +5,7 @@ The link to the contributing guidelines also appears on your repository's contri
 - For the repository owner, contribution guidelines are a way to communicate how people should contribute.
 - For contributors, the guidelines help them verify that they're submitting well-formed pull requests and opening useful issues.
 - For both owners and contributors, contribution guidelines save time and hassle caused by improperly created pull requests or issues that have to be rejected and re-submitted.
+- Repository maintainers can set specific guidelines for issues by creating an issue or pull request template for the repository
 
 # Adding a CONTRIBUTING file
 -To make your contributing guidelines visible in the repository's root directory, type CONTRIBUTING.
