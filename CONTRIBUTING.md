@@ -1,3 +1,5 @@
+[Setting guidelines for repository contributors](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors)
+
 # About contributing guideline
 To help your project contributors do good work, you can add a file with contribution guidelines to your project repository's root, docs, or .github folder. When someone opens a pull request or creates an issue, they will see a link to that file.
 The link to the contributing guidelines also appears on your repository's contribute page.
