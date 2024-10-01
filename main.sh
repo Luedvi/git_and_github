@@ -581,6 +581,8 @@ git fetch --dry-run
 # It's a good practice to do a git pull to ensure we have our local repository up to date with the remote repository before doing the git push command
 # git push: Update remote refs along with associated objects. Sends the changes to a remote repository.
 git push # Works like git push <remote>, where <remote> is the current branch’s remote (or origin, if no remote is configured for the current branch)
+git push repository_url
+git push git@github.com:Luedvi/test.git
 git push repository_alias
 git push repository_alias branch_name
 git push origin master # Find a ref that matches master in the source repository and update the same ref in origin repository with it. If master did not exist remotely, it would be created
@@ -621,6 +623,8 @@ git push repository_alias tag_name -d
 
 # git pull: Fetch from and integrate with another repository or a local branch. Download the changes of a repository
 git pull
+git pull repository_url
+git pull git@github.com:Luedvi/test.git
 git pull repository_alias
 git pull origin
 git pull repository_alias branch_name
@@ -647,13 +651,34 @@ git pull repository_alias --all
 # git remote show: Gives some information about the remote <name>. This is the default if no arguments
 git remote show 
 git remote
+# -v, --verbose: Be a little more verbose and show remote url after name
+git remote -v
+git remote --verbose add repository_alias repository_url
 # git remote add: Add a remote named "repository_alias" for the repository at "repository_url". The command "git fetch repository_alias" can then be used to create and update remote-tracking branches "repository_alias/branch_name". The default name for the repository_alias that is commonly used is "origin"
 git remote add repository_alias repository_url
 git remote add origin https://github.com/user/my_project.git
 git remote add upstream https://github.com/user/other_project.git
-# -v, --verbose: Be a little more verbose and show remote url after name
-git remote -v
-git remote --verbose add repository_alias repository_url
+# -f: git fetch repository_alias is run immediately after the remote information is set up.
+git remote add -f repository_alias repository_url
+# --tags: git fetch repository_alias imports every tag from the remote repository. By default, only tags on fetched branches are imported
+git remote add --tags repository_alias repository_url
+# --no-tags: git fetch repository_alias does not import tags from the remote repository.
+git remote add --no-tags repository_alias repository_url
+# -t <branch_name>: instead of the default glob refspec for the remote to track all branches under the refs/remotes/repository_alias/ namespace, a refspec to track only <branch_name> is created. You can give more than one -t <branch_name> to track multiple branches without grabbing all branches.
+git remote add -t branch_name repository_alias repository_url
+git remote add -t branch_name1 -t branch_name2 repository_alias repository_url
+# -m <master_branch_name>: a symbolic-ref refs/remotes/repository_alias/HEAD is set up to point at remote’s <master> branch
+git remote add -m master_branch_name repository_alias repository_url
+# --mirror=fetch: a fetch mirror is created, the refs will not be stored in the refs/remotes/ namespace, but rather everything in refs/ on the remote will be directly mirrored into refs/ in the local repository. This option only makes sense in bare repositories, because a fetch would overwrite any local commits.
+git remote add --mirror=fetch repository_alias repository_url
+# --mirror=push: a push mirror is created, then git push will always behave as if --mirror was passed.
+git remote add --mirror=push repository_alias repository_url
+# git remote get-url: Retrieves the URLs for a remote. Configurations for insteadOf and pushInsteadOf are expanded here. By default, only the first URL is listed.
+git remote get-url repository_alias
+# --push: push URLs are queried rather than fetch URLs.
+git remote get-url --push repository_alias
+# --all: all URLs for the remote will be listed.
+git remote get-url --all repository_alias
 # git remote rename: Rename the remote named old_name to new_name. All remote-tracking branches and configuration settings for the remote are updated.
 git remote rename old_name new_name
 # git remote remove, rm: Remove the remote repository. All remote-tracking branches and configuration settings for the remote are removed.
@@ -663,8 +688,34 @@ git remote rm repository_alias
 git remote prune repository_alias
 git remote prune -n repository_alias # With --dry-run option, report what branches would be pruned, but do not actually prune them.
 git remote prune --dry-run repository_alias
-# git remote set-url: Changes URLs for the remote.
+# git remote set-url: Changes URLs for the remote. Sets first URL for remote <repository_alias> that matches regex <oldurl> (first URL if no <oldurl> is given) to <newurl>. If <oldurl> doesn’t match any URL, an error occurs and nothing is changed.
 git remote set-url repository_alias new_url
+git remote set-url repository_alias new_url old_url
+# --push: push URLs are manipulated instead of fetch URLs.
+git remote set-url --push repository_alias new_url
+git remote set-url --push repository_alias new_url old_url
+# --add: instead of changing existing URLs, new URL is added.
+git remote set-url --add repository_alias new_url
+git remote set-url --add repository_alias new_url old_url
+git remote set-url --add --push repository_alias new_url
+git remote set-url --add --push repository_alias new_url old_url
+# --delete: instead of changing existing URLs, all URLs matching regex <url> are deleted for remote <repository_alias>. Trying to delete all non-push URLs is an error.
+git remote set-url --delete repository_alias regex_url
+git remote set-url --delete --push repository_alias regex_url
+# git remote set-branches: Changes the list of branches tracked by the named remote. This can be used to track a subset of the available remote branches after the initial setup for a remote. The named branches will be interpreted as if specified with the -t option on the "git remote add" command line.
+git remote set-branches repository_alias branch_name
+git remote set-branches repository_alias branch_name1 branch_name2
+# --add: instead of replacing the list of currently tracked branches, adds to that list.
+git remote set-branches --add repository_alias branch_name
+git remote set-branches --add repository_alias branch_name1 branch_name2
+# git remote set-head: Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<repository_alias>/HEAD) for the named remote. Having a default branch for a remote is not required, but allows the name of the remote to be specified in lieu of a specific branch. For example, if the default branch for "origin" is set to "master", then "origin" may be specified wherever you would normally specify "origin/master". Use <new_default_branch> to set the symbolic-ref refs/remotes/<repository_alias>/HEAD explicitly. e.g., "git remote set-head origin master" will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/master. This will only work if refs/remotes/origin/master already exists; if not it must be fetched first.
+git remote set-head repository_alias new_default_branch
+# -d or --delete: the symbolic ref refs/remotes/<repository_alias>/HEAD is deleted.
+git remote set-head repository_alias -d
+git remote set-head repository_alias --delete
+# -a or --auto: the remote is queried to determine its HEAD, then the symbolic-ref refs/remotes/<repository_alias>/HEAD is set to the same branch. e.g., if the remote HEAD is pointed at feature1, git remote set-head origin -a will set the symbolic-ref refs/remotes/origin/HEAD to refs/remotes/origin/feature1. This will only work if refs/remotes/origin/feature1 already exists; if not it must be fetched first.
+git remote set-head repository_alias -a
+git remote set-head repository_alias --auto
 
 # git-gui: is a Tcl/Tk based graphical user interface to Git
 sudo apt install git-gui
