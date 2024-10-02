@@ -36,6 +36,7 @@ So, whether you're creating a new repository or revamping an existing one, make 
 
 [MEditor.md](https://pandao.github.io/editor.md/en.html)
 
+[Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 
 ### More markdown features
 
