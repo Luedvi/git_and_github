@@ -358,9 +358,9 @@ cond(no)->op
 
 ```mermaid
 graph TD
-A(Login) --> B[Login operation]
+A((Login)) --> B[Login operation]
 B --> C{Successful Yes or No?}
-C -- Yes --> D(To admin)
+C -- Yes --> D((To admin))
 C -- No --> B
 ```
 
