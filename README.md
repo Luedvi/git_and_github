@@ -40,6 +40,8 @@ So, whether you're creating a new repository or revamping an existing one, make 
 
 [Github Documentation](https://docs.github.com/en)
 
+[Profile templates](https://github.com/durgeshsamariya/awesome-github-profile-readme-templates/blob/master/templates/7oSkaaa.md)
+
 ### More markdown features
 
 - Support Standard Markdown / CommonMark and GFM(GitHub Flavored Markdown);
