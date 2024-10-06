@@ -38,6 +38,8 @@ So, whether you're creating a new repository or revamping an existing one, make 
 
 [Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 
+[Github Documentation](https://docs.github.com/en)
+
 ### More markdown features
 
 - Support Standard Markdown / CommonMark and GFM(GitHub Flavored Markdown);
@@ -356,10 +358,10 @@ cond(no)->op
 
 ```mermaid
 graph LR
-st->start: Login
-op->operation: Login operation
+st-->start: Login
+op-->operation: Login operation
 cond->condition: Successful Yes or No?
-e->end: To admin
+e-->end: To admin
 
 st->op->cond
 cond(yes)->e
@@ -373,6 +375,13 @@ graph TD;
     B-->D;
     C-->D;
 ```
+
+```mermaid
+graph LR
+A[Square Rect] -- Link text --> B((Circle))
+A --> C(Round Rect)
+B --> D{Rhombus}
+C --> D
 
 
 ### Sequence Diagram
@@ -390,6 +399,18 @@ Andrew->China: Says Hello
 Note right of China: China thinks\nabout it 
 China-->Andrew: How are you? 
 Andrew->>China: I am good thanks!
+```
+
+```mermaid
+sequenceDiagram
+Alice ->> Bob: Hello Bob, how are you?
+Bob-->>John: How about you John?
+Bob--x Alice: I am good thanks!
+Bob-x John: I am good thanks!
+Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+
+Bob-->Alice: Checking with John...
+Alice->John: Yes... John, how are you?
 ```
 
 ### End
