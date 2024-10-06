@@ -447,18 +447,6 @@ cond(no)->op
 
 ```mermaid
 graph TD
-    st=>start: Login
-    op=>operation: Login operation
-    cond=>condition: Successful?
-    e=>end: To admin
-
-    st->op->cond
-    cond-->|Yes|e
-    cond-->|No|op
-```
-
-```mermaid
-graph TD
 A((Login)) --> B[Login operation]
 B --> C{Successful Yes or No?}
 C -- Yes --> D((To admin))
