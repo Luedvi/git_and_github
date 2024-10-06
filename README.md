@@ -36,11 +36,11 @@ So, whether you're creating a new repository or revamping an existing one, make 
 
 [MEditor.md](https://pandao.github.io/editor.md/en.html)
 
-[Basic writing and formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-
 [Github Documentation](https://docs.github.com/en)
 
 [Profile templates](https://github.com/durgeshsamariya/awesome-github-profile-readme-templates/blob/master/templates/7oSkaaa.md)
+
+[Github pages](https://pages.github.com/)
 
 \################# Readme.md Example \######################
 
