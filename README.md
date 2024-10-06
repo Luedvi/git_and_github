@@ -125,6 +125,15 @@ GFM a-tail link @pandao
 
 `$ npm install marked`
 
+#### Using ~
+
+~~~
+def function():
+    print("hello world")
+    print(1+2)
+function()
+~~~
+
 #### Code Blocks (Indented style)
 
 Indented 4 spaces, like `<pre>` (Preformatted Text).
