@@ -357,15 +357,11 @@ cond(no)->op
 ```
 
 ```mermaid
-graph LR
-st-->start; Login
-op-->operation; Login operation
-cond->condition; Successful Yes or No?
-e-->end; To admin
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
+graph TD
+A(Login) --> B[Login operation]
+B --> C{Successful Yes or No?}
+C -- Yes --> D(To admin)
+C -- No --> B
 ```
 
 ```mermaid
