@@ -382,7 +382,7 @@ A[Square Rect] -- Link text --> B((Circle))
 A --> C(Round Rect)
 B --> D{Rhombus}
 C --> D
-
+```
 
 ### Sequence Diagram
                     
@@ -396,7 +396,7 @@ Andrew->>China: I am good thanks!
 ```mermaid
 sequenceDiagram
 Andrew->China: Says Hello 
-Note right of China: China thinks\nabout it 
+Note right of China: China thinks<br/>about it 
 China-->Andrew: How are you? 
 Andrew->>China: I am good thanks!
 ```
