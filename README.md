@@ -355,7 +355,7 @@ cond(no)->op
 ```
 
 ```mermaid
-graph LR
+graph TD
 st=>start: Login
 op=>operation: Login operation
 cond=>condition: Successful Yes or No?
