@@ -224,6 +224,8 @@ git log
 git log ./file_name
 git log file_name1 file_name2 ^file_name3
 git log branch_name
+git log main
+git log origin/main
 # A special notation "<commit1>..<commit2>" can be used as a short-hand for "^<commit1> <commit2>". For example, either of the following may be used interchangeably:
 git log origin..HEAD
 git log HEAD ^origin
