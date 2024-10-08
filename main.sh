@@ -300,6 +300,8 @@ git log --regexp-ignore-case --grep="regex_pattern"
 git log --merges
 # --no-merges: Do not print commits with more than one parent. This is exactly the same as --max-parents=1.
 git log --no-merges
+# --merge: After a failed merge, show refs that touch files having a conflict and don’t exist on all heads to merge.
+git log --merge
 # --branches[=<pattern>]: Pretend as if all the refs in refs/heads are listed on the command line as <commit>. If <pattern> is given, limit branches to ones matching given shell glob. If pattern lacks ?, *, or [, /* at the end is implied.
 git log --branches
 git log --branches="string_pattern"
