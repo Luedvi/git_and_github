@@ -638,6 +638,12 @@ git pull repository_alias branch_name --allow-unrelated-histories
 # -t, --tags: Fetch all tags from the remote (i.e., fetch remote tags refs/tags/* into local tags with the same name), in addition to whatever else would otherwise be fetched. Using this option alone does not subject tags to pruning, even if --prune is used (though tags may be pruned anyway if they are also the destination of an explicit refspec; see --prune).
 git pull -t
 git pull --tags
+# --ff-only: Only update to the new history if there is no divergent local history. This is the default when no method for reconciling divergent histories is provided (via the --rebase=* flags).
+git pull --ff-only
+# --ff: when possible resolve the merge as a fast-forward (only update the branch pointer to match the merged branch; do not create a merge commit). When not possible (when the merged-in history is not a descendant of the current history), create a merge commit. When merging rather than rebasing, specifies how a merge is handled when the merged-in history is already a descendant of the current history. If merging is requested, --ff is the default unless merging an annotated (and possibly signed) tag that is not stored in its natural place in the refs/tags/ hierarchy, in which case --no-ff is assumed.
+git pull --ff
+# --no-ff: create a merge commit in all cases, even when the merge could instead be resolved as a fast-forward.
+git pull --no-ff
 # -r, --rebase[=false|true|merges|interactive]: When true, rebase the current branch on top of the upstream branch after fetching.
 git pull -r
 git pull --rebase=true
