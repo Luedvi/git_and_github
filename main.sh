@@ -140,6 +140,7 @@ git checkout commit_hash file_name1 file_name2
 # switch branch
 git checkout branch_name
 git checkout branch_name file_name1 file_name2
+git checkout -  # switch to the last checked branch
 # -b <new_branch>: Create a new branch named <new_branch> and start it at <start_point>
 git checkout -b new_branch_name
 git checkout -b new_branch_name start_point
@@ -162,6 +163,7 @@ git checkout --orphan new_branch_name
 
 # git switch: Switch to a specified branch. The working tree and the index are updated to match the branch. All new commits will be added to the tip of this branch.
 git switch branch_name
+git switch -  # switch to the las checked branch
 # -c <new-branch>, --create <new-branch>: Create a new branch named <new-branch> starting at <start-point> before switching to the branch. Specifying a <start-point> allows you to create a branch based on some other point in history than where HEAD currently points. (Or, in the case of --detach, allows you to inspect and detach from some other point.) You can use the @{-N} syntax to refer to the N-th last branch/commit switched to using "git switch" or "git checkout" operation. You may also specify - which is synonymous to @{-1}. This is often used to switch quickly between two branches, or to undo a branch switch by mistake.
 git switch -c new_branch_name
 git switch --create new_branch_name
