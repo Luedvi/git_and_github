@@ -230,6 +230,7 @@ git log main
 git log origin/main
 # A special notation "<commit1>..<commit2>" can be used as a short-hand for "^<commit1> <commit2>". For example, either of the following may be used interchangeably:
 git log origin..HEAD
+git log main..HEAD
 git log HEAD ^origin
 git log master@{1.month.ago..yesterday}
 # Another special notation is "<commit1>...<commit2>" which is useful for merges. The resulting set of commits is the symmetric difference between the two operands. The following two commands are equivalent:
@@ -539,10 +540,15 @@ git merge -X theirs
 # --allow-unrelated-histories: By default, git merge command refuses to merge histories that do not share a common ancestor. This option can be used to override this safety when merging histories of two projects that started their lives independently. As that is a very rare occasion, no configuration variable to enable this by default exists and will not be added.
 git merge branch_name --allow-unrelated-histories
 
-# git rebase: Reapply commits on top of another base tip
-git rebase branch_name
-git rebase base_branch topic_branch
+# git rebase: Reapply commits on top of another base tip. If the "base_branch" already contains a change you have made in the "branch_rebased" then that commit will be skipped and warnings will be issued.
+git rebase base_branch  # base_branch is the branch to compare against, the commit that serves as the starting point. Commits from this point will be rebased. May be any valid commit, not just an existing branch name. Defaults to the configured upstream for the current branch. 
+git rebase 47k25j
+git rebase main
+git rebase base_branch branch_rebased  # branch_rebased is the Working branch; defaults to HEAD but it can be any valid commit. If "branch_rebased" is specified, git rebase will perform an automatic git switch "branch_rebased" before doing anything else. Otherwise it remains on the current branch. When rebase exits "branch_rebased" will remain the checked-out branch.
 git rebase main feature1
+git rebase main 0aw9e
+git rebase main origin/main
+git rebase 45ab25 feature1
 #-i, --interactive: Make a list of the commits which are about to be rebased. Let the user edit that list before rebasing. This mode can also be used to split commits
 git rebase -i branch name
 git rebase -i HEAD~3
@@ -552,6 +558,12 @@ git rebase main
 git checkout main
 git rebase disposable_branch
 git branch -d disposable_branch
+# --onto new_base: Starting point at which to create the new commits. If the --onto option is not specified, the starting point is "base_branch". May be any valid commit, and not just an existing branch name.
+git rebase --onto new_base base_branch branch_rebased
+git rebase --onto main father son  # Here is how you would transplant a "son" branch based on "father" branch to "main", to pretend that you forked the "son" branch from the "main" branch
+git rebase --onto 2h34u 3k4j7 feature1
+git rebase --onto 3kn6a k345n 68npo
+git rebase --onto feature~5 feature~3 feature  # A range of commits could also be removed with rebase
 
 # git clone: Clone a repository into a new directory
 git clone Uniform_Resource_Locator
