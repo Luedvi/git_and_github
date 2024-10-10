@@ -749,27 +749,37 @@ git gui
 # gitk: Displays changes in a repository or a selected set of commits. This includes visualizing the commit graph, showing information related to each commit, and the files in the trees of each revision
 gitk
 
-# git stash: Stash the changes in a dirty working directory away. Use git stash when you want to record the current state of the working directory and the index, but want to go back to a clean working directory. The command saves your local modifications away and reverts the working directory to match the HEAD commit. Calling git stash without any arguments is equivalent to "git stash push", for quickly making a snapshot, you can omit "push"
+# git stash: Stash the changes in a dirty working directory away. By default It only stash tracked files. Use git stash when you want to record the current state of the working directory and the index, but want to go back to a clean working directory. The command saves your local modifications away and reverts the working directory and index to match the HEAD commit. Calling git stash without any arguments is equivalent to "git stash push", for quickly making a snapshot, you can omit "push"
 git stash
-# git stash push: Save your local modifications to a new stash entry and roll them back to HEAD (in the working tree and in the index)
 git stash push
 # -m, --message: The <message> part is optional and gives the description along with the stashed state. A stash is by default listed as "WIP on branchname ...", but you can give a more descriptive message on the command line when you create one. WIP refers to Work In Progress.
+git stash -m "the message"
 git stash push -m "the message"
 git stash push --message "the message"
-# -u, --include-untracked: When used with the push command, all untracked files are also stashed and then cleaned up with git clean.
+# -u, --include-untracked: When used with the "git stash push" command, all untracked files are also stashed and then cleaned up with git clean.
 git stash push -u
 git stash push --include-untracked
 # -a, --all: All ignored and untracked files are also stashed and then cleaned up with git clean.
 git stash push -a
 git stash push --all
-# -p, --patch: Interactively select hunks from the diff between HEAD and the working tree to be stashed. The stash entry is constructed such that its index state is the same as the index state of your repository, and its worktree contains only the changes you selected interactively. The selected changes are then rolled back from your worktree. The --patch option implies "--keep-index"
+# -p, --patch: Interactively select hunks from the diff between HEAD and the working tree to be stashed. The stash entry is constructed such that its index state is the same as the index state of your repository, and its worktree contains only the changes you selected interactively. The selected changes are then rolled back from your worktree. The --patch option implies "--keep-index", You can use "--no-keep-index" to override this.
 git stash push -p
 git stash push --patch
+# -k, --keep-index: All changes already added to the index are left intact.
+git stash -k
+git stash push --keep-index
+# --no-keep-index: overrides the "--patch" option
+git stash -p --no-keep-index
+# -- pathspec: "--" Separates pathspec from options for disambiguation purposes. The new stash entry records the modified states only for the files that match the pathspec. The index entries and working tree files are then rolled back to the state in HEAD only for these files, too, leaving files that do not match the pathspec intact.
+git stash -- pathspec
+git stash push -- pathspec
+git stash -- ./file1.txt ./file2.txt
 # git stash list [<log-options>]: List the stash entries that you currently have. Each stash entry is listed with its name (e.g.  stash@{0} is the latest entry, stash@{1} is the one before, etc.), the name of the branch that was current when the entry was made, and a short description of the commit the entry was based on. The command takes options applicable to the "git log" command to control what is shown and how
 git stash list
 git stash list --oneline
-# git stash show [-u|--include-untracked|--only-untracked] [<diff-options>] [<stash>]: Show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created. By default, the command shows the diffstat, but it will accept any format known to git diff (e.g., "git stash show -p stash@{1}" to view the second most recent entry in patch form). If no <diff-option> is provided, the default behavior will be given by the "stash.showStat", and "stash.showPatch" config variables. You can also use "stash.showIncludeUntracked" to set whether --include-untracked is enabled by default.
+# git stash show [-u|--include-untracked|--only-untracked] [<diff-options>] [<stash>]: Show the changes recorded in the stash entry as a diff between the stashed contents and the commit back when the stash entry was first created. By default, the command shows the diffstat, but it will accept any format known to git diff (e.g., "git stash show -p stash@{1}" to view the second most recent entry in patch form). If no <diff-option> is provided, the default behavior will be given by the "stash.showStat", and "stash.showPatch" config variables. You can also use "stash.showIncludeUntracked" to set whether --include-untracked is enabled by default.  When no "stash_entry" is given, the latest stash is assumed (that is, stash@{0})
 git stash show
+git stash show stash_entry
 git stash show stash@{0}
 git stash show -p
 git stash show -p stash@{0}
@@ -789,6 +799,9 @@ git stash pop 1
 git stash apply
 git stash apply stash_entry
 git stash apply 0
+# --index: Tries to reinstate not only the working tree’s changes, but also the index’s ones. However, this can fail, when you have conflicts (which are stored in the index, where you therefore can no longer apply the changes as they were originally).
+git stash pop stash_entry --index
+git stash apply stash_entry --index
 # git stash branch <branchname> [<stash>]: Creates and checks out a new branch named <branchname> starting from the commit at which the <stash> was originally created, applies the changes recorded in <stash> to the new working tree and index. If that succeeds, and <stash> is a reference of the form stash@{<revision>}, it then drops the <stash>. This is useful if the branch on which you ran "git stash push" has changed enough that "git stash apply" fails due to conflicts. Since the stash entry is applied on top of the commit that was HEAD at the time git stash was run, it restores the originally stashed state with no conflicts.
 git stash branch new_branch_name
 git stash branch new_branch_name stash_entry
