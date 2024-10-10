@@ -541,6 +541,8 @@ git merge branch_name --allow-unrelated-histories
 
 # git rebase: Reapply commits on top of another base tip
 git rebase branch_name
+git rebase base_branch topic_branch
+git rebase main feature1
 #-i, --interactive: Make a list of the commits which are about to be rebased. Let the user edit that list before rebasing. This mode can also be used to split commits
 git rebase -i branch name
 git rebase -i HEAD~3
