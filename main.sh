@@ -1019,6 +1019,11 @@ git check-ignore file_name
 git check-ignore -v file_name1 file_name2
 git check-ignore --verbose file_pattern1 file_pattern2
 
+# git bisect: Use binary search to find the commit that introduced a bug
+git bisect start
+git bisect bad
+git bisect good v2.6.13-rc2
+
 # https://www.toptal.com/developers/gitignore
 
 # https://github.com/github/gitignore
