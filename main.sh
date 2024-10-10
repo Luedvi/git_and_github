@@ -790,6 +790,7 @@ git stash show --include-untracked
 # --only-untracked: Show only the untracked files in the stash entry as part of the diff.
 git stash show --only-untracked
 # git stash pop [--index] [-q|--quiet] [<stash>]: Remove a single stashed state from the stash list and apply it on top of the current working tree state, i.e., do the inverse operation of "git stash push". The working directory must match the index. Applying the state can fail with conflicts; in this case, it is not removed from the stash list. You need to resolve the conflicts by hand and call "git stash drop" manually afterwards.
+# When fixing stash merge conflicts is a good practice to make a commit at the end to document what happened.
 git stash pop
 git stash pop stash_entry
 # The latest stash you created is stored in refs/stash; older stashes are found in the reflog of this reference and can be named using the usual reflog syntax (e.g. stash@{0} is the most recently created stash, stash@{1} is the one before it, stash@{2.hours.ago} is also possible). Stashes may also be referenced by specifying just the stash index (e.g. the integer n is equivalent to stash@{n}).
@@ -806,10 +807,12 @@ git stash apply stash_entry --index
 git stash branch new_branch_name
 git stash branch new_branch_name stash_entry
 git stash branch testing stash@{2}
+git stash branch testing 2
 # git stash drop [-q|--quiet] [<stash>]: Remove a single stash entry from the list of stash entries
 git stash drop
 git stash drop stash_entry
 git stash drop stash@{0}
+git stash drop 0
 # git stash clear: Remove all the stash entries. Note that those entries will then be subject to pruning, and may be impossible to recover
 git stash clear
 
