@@ -284,6 +284,10 @@ git log --walk-reflogs
 git log -g --pretty=medium
 git log -g --pretty=reference
 git log -g --abbrev-commit --pretty=oneline
+# --reflog: Pretend as if all objects mentioned by reflogs are listed on the command line as <commit>
+git log --reflog
+# --single-worktree: By default, all working trees will be examined by the following options when there are more than one: --all, --reflog and --indexed-objects. This option forces them to examine the current working tree only.
+git log --single-worktree
 # -S<string>: Look for differences that change the number of occurrences of the specified string (i.e. addition/deletion) in a file. Intended for the scripter’s use. It is useful when you’re looking for an exact block of code (like a struct), and want to know the history of that block since it first came into being: use the feature iteratively to feed the interesting block in the preimage back into -S, and keep going until you get the very first version of the block. Binary files are searched as well.
 git log -S string_pattern
 git log -S "string_pattern_in_file"
@@ -815,6 +819,23 @@ git stash drop stash@{0}
 git stash drop 0
 # git stash clear: Remove all the stash entries. Note that those entries will then be subject to pruning, and may be impossible to recover
 git stash clear
+
+# git worktree add: creates the "path" and a new branch whose name is the final component of "path". If the branch doesn’t exist, a new branch based on HEAD is automatically created as if -b <branch> was given. If the branch does exist, it will be checked out in the new working tree, if it’s not checked out anywhere else, otherwise the command will refuse to create the working tree (unless --force is used). The new working directory is linked to the current repository, sharing everything except working directory specific files such as HEAD, index, etc.
+git worktree add ../path/new_worktree
+git worktree add ../hotfix  # creates new branch "hotfix" and checks it out at path ../hotfix
+git worktree add ../main  # checks out the branch "main" at path ../main
+git worktree add ../path/new_worktree commit_id
+git worktree add ../path/new_worktree existing_branch
+git worktree add ../hotfix 2q6349  # Creates path ../hotfix and checkout commit "2q6349" into it
+git worktree add ../hotfix main  # Creates path ../hotfix and checkout branch "main" into it
+git worktree add ../path/new_worktree -  # As a convenience, <commit-ish> may be a bare "-", which is synonymous with @{-1}.
+
+
+
+
+# If <commit-ish> is a branch name and is not found, and neither -b nor -B nor --detach are used, but there does exist a tracking branch in exactly one remote with a matching name, treat as equivalent to:
+git worktree add --track -b branch_name ../path/new_worktree repository_alias/branch_name
+git worktree add ../path/new_worktree branch_name
 
 # git clean: Remove untracked files from the working tree. Cleans the working tree by recursively removing files that are not under version control, starting from the current directory. Normally, only files unknown to Git are removed, but if the -x option is specified, ignored files are also removed. This can, for example, be useful to remove all build products. If any optional <path>... arguments are given, only those paths are affected.
 git clean
