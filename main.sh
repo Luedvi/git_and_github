@@ -829,13 +829,68 @@ git worktree add ../path/new_worktree existing_branch
 git worktree add ../hotfix 2q6349  # Creates path ../hotfix and checkout commit "2q6349" into it
 git worktree add ../hotfix main  # Creates path ../hotfix and checkout branch "main" into it
 git worktree add ../path/new_worktree -  # As a convenience, <commit-ish> may be a bare "-", which is synonymous with @{-1}.
-
-
-
-
+# -b <new-branch>, -B <new-branch>: create a new branch named <new-branch> starting at <commit-ish>, and check out <new-branch> into the new working tree. If <commit-ish> is omitted, it defaults to HEAD. By default, -b refuses to create a new branch if it already exists.  -B overrides this safeguard, resetting <new-branch> to <commit-ish>.
+git worktree add ../path/new_worktree existing_branch -b new_branch
+git worktree add ../path/new_worktree -B new_branch
+# -d, --detach: detach HEAD in the new working tree
+git worktree add ../path/new_worktree -d
+git worktree add ../path/new_worktree existing_branch --detach
+# -f, --force: By default, add refuses to create a new working tree when <commit-ish> is a branch name and is already checked out by another working tree, or if <path> is already assigned to some working tree but is missing (for instance, if <path> was deleted manually). This option overrides these safeguards. To add a missing but locked working tree path, specify --force twice.
+git worktree add ../path/new_worktree existing_branch -f
+git worktree add ../path/new_worktree existing_branch --force
+# --[no-]track: When creating a new branch, if <commit-ish> is a branch, mark it as "upstream" from the new branch. This is the default if <commit-ish> is a remote-tracking branch.
+git worktree add ../path/new_worktree existing_branch -b new_branch --track
+git worktree add ../path/new_worktree existing_branch -b new_branch --no-track
 # If <commit-ish> is a branch name and is not found, and neither -b nor -B nor --detach are used, but there does exist a tracking branch in exactly one remote with a matching name, treat as equivalent to:
-git worktree add --track -b branch_name ../path/new_worktree repository_alias/branch_name
-git worktree add ../path/new_worktree branch_name
+git worktree add ../path/new_worktree repository_alias/branch_name --track -b branch_name
+git worktree add ../path/new_worktree branch_name_in_remote
+git worktree add ../feature1 feature1
+git worktree add ../feature1 origin/feature1 --track -b feature1
+# --[no-]guess-remote: With worktree add <path>, without <commit-ish>, instead of creating a new branch from HEAD, if there exists a tracking branch in exactly one remote matching the basename of <path>, base the new branch on the remote-tracking branch, and mark the remote-tracking branch as "upstream" from the new branch.
+git worktree add ../path/new_worktree --guess-remote
+git worktree add ../path/new_worktree --no-guess-remote
+# --lock: Keep the working tree locked after creation. This is the equivalent of "git worktree lock" after "git worktree add", but without a race condition.
+git worktree add ../path/new_worktree --lock
+# --reason <string>: an explanation why the working tree is locked.
+git worktree add ../path/new_worktree --lock --reason "string_message"
+# git worktree list: List details of each working tree. The main working tree is listed first, followed by each of the linked working trees. The output details include whether the working tree is bare, the revision currently checked out, the branch currently checked out (or "detached HEAD" if none), "locked" if the worktree is locked, "prunable" if the worktree can be pruned by prune command.
+git worktree list
+# -v, --verbose: output additional information about worktrees.
+git worktree list -v
+git worktree list --verbose
+# --expire <time>: annotate missing working trees as prunable if they are older than <time>.
+git worktree list --expire 1.week.ago
+# git worktree lock: If a working tree is on a portable device or network share which is not always mounted, lock it to prevent its administrative files from being pruned automatically. This also prevents it from being moved or deleted.
+git worktree lock absolute/path/to/existing_worktree
+git worktree lock ../path/existing_worktree
+git worktree lock existing_worktree  # If the last path components in the working tree’s path is unique among working trees, it can be used to identify a working tree. For example if you only have two working trees, at /abc/def/ghi and /abc/def/ggg, then ghi or def/ghi is enough to point to the former working tree.
+git worktree lock ./existing_worktree --reason "string message"  # Optionally, specify a reason for the lock.
+# git worktree unlock: Unlock a working tree, allowing it to be pruned, moved or deleted.
+git worktree unlock ./existing_worktree
+# git worktree move: Move a working tree to a new location. Note that the main working tree or linked working trees containing submodules cannot be moved with this command.
+git worktree move existing_worktree ../new/path
+# -f, --force: move refuses to move a locked working tree unless --force is specified twice. If the destination is already assigned to some other working tree but is missing (for instance, if <new-path> was deleted manually), then --force allows the move to proceed; use --force twice if the destination is locked.
+git worktree move existing_worktree ../new/path/deleted/manually -f
+git worktree move existing_worktree ../locked/new/path -ff
+git worktree move locked_worktree ../new/path --force --force
+# git worktree prune: Prune working tree information in $GIT_DIR/worktrees. Remove references to worktrees that have been deleted manually or that no longer exist.
+git worktree prune
+# -n, --dry-run: do not remove anything; just report what it would remove.
+git worktree prune -n
+git worktree prune --dry-run
+# v, --verbose: report all removals.
+git worktree prune -v
+git worktree prune --verbose
+# --expire <time>:only expire unused working trees older than <time>.
+git worktree prune --expire yesterday
+# git worktree remove: Remove a working tree. Only clean working trees (no untracked files and no modification in tracked files) can be removed.
+git worktree remove existing_worktree
+# --force: remove unclean working trees or ones with submodules. The main working tree cannot be removed. To remove a locked working tree, specify --force twice.
+git worktree remove unclean_worktree --force
+git worktree remove locked_worktree -ff
+# git worktree repair [<path>...]: Repair working tree administrative files, if possible, if they have become corrupted or outdated due to external factors.
+git worktree repair  # if the main working tree (or bare repository) is moved, linked working trees will be unable to locate it. Running repair in the main working tree will reestablish the connection from linked working trees back to the main working tree. Similarly, if a linked working tree is moved without using "git worktree move", the main working tree (or bare repository) will be unable to locate it. Running repair within the recently-moved working tree will reestablish the connection.
+git worktree repair ../path/moved_worktree1 ../path/moved_worktree2  # If multiple linked working trees are moved, running repair from any working tree with each tree’s new <path> as an argument, will reestablish the connection to all the specified paths. If both the main working tree and linked working trees have been moved manually, then running repair in the main working tree and specifying the new <path> of each linked working tree will reestablish all connections in both directions.
 
 # git clean: Remove untracked files from the working tree. Cleans the working tree by recursively removing files that are not under version control, starting from the current directory. Normally, only files unknown to Git are removed, but if the -x option is specified, ignored files are also removed. This can, for example, be useful to remove all build products. If any optional <path>... arguments are given, only those paths are affected.
 git clean
