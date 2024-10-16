@@ -215,6 +215,7 @@ git diff topic...master  # Changes that occurred on the master branch since when
 # --cached: This form is to view the changes you staged for the next commit relative to the named <commit>. Typically you would want comparison with the latest commit, so if you do not give <commit>, it defaults to HEAD. If HEAD does not exist (e.g. unborn branches) and <commit> is not given, it shows all staged changes. --staged is a synonym of --cached
 git diff --cached
 git diff --staged commit_hash
+git diff --cached > patch_file.patch
 # -p, -u, --patch: Generate patch, this is the default.
 git diff
 git diff -p
@@ -223,6 +224,16 @@ git diff --patch
 # -s, --no-patch: Suppress diff output. Useful for commands like git show that show the patch by default, or to cancel the effect of --patch.
 git diff -s
 git diff --no-patch
+# --output=<file>: Output to a specific file instead of stdout.
+git diff --output=file_name.txt
+# --name-only: Show only names of changed files. The file names are often encoded in UTF-8.
+git diff --name-only
+# -U<n>, --unified=<n>: Generate diffs with <n> lines of context instead of the usual three. Implies --patch.
+git diff -U3
+git diff --unified=3
+
+# git apply: Apply a patch to files and/or to the index. Reads the supplied diff output (i.e. "a patch") and applies it to files. The command applies the patch only to files, and does not require them to be in a Git repository, this command applies the patch but does not create a commit. When running from a subdirectory in a repository, patched paths outside the directory are ignored.
+git apply patch_file.patch
 
 # git log: Shows the commit logs. List commits that are reachable by following the parent links from the given commits, but exclude commits that are reachable from the ones given with a ^ in front of them. The output is given in reverse chronological order by default. Shows all the changes made to a file
 git log
@@ -791,6 +802,7 @@ git stash show stash@{0}
 git stash show -p
 git stash show -p stash@{0}
 git stash show stash@{2.hours.ago}
+git stash show stash@{0} -p > patch_file.patch
 #  -u, --include-untracked: When used with the show command, show the untracked files in the stash entry as part of the diff.
 git stash show -u
 git stash show --include-untracked
