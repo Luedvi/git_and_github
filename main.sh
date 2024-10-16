@@ -209,6 +209,9 @@ git diff branch_name
 git diff branch1_name branch2_name
 git diff HEAD -- ./file_name
 git diff HEAD^ HEAD
+git diff topic master  # Changes between the tips of the topic and the master branches.
+diff topic..master  # Same as above.
+git diff topic...master  # Changes that occurred on the master branch since when the topic branch was started off it.
 # --cached: This form is to view the changes you staged for the next commit relative to the named <commit>. Typically you would want comparison with the latest commit, so if you do not give <commit>, it defaults to HEAD. If HEAD does not exist (e.g. unborn branches) and <commit> is not given, it shows all staged changes. --staged is a synonym of --cached
 git diff --cached
 git diff --staged commit_hash
