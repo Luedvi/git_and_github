@@ -29,6 +29,9 @@ git add --no-ignore-removal
 # --no-all, --ignore-removal: Update the index by adding new files that are unknown to the index and files modified in the working tree, but ignore files that have been removed from the working tree. This option is a no-op when no <pathspec> is used.
 git add --no-all
 git add --ignore-removal
+# -N, --intent-to-add: Record only the fact that the path will be added later. An entry for the path is placed in the index with no content. This is useful for, among other things, showing the unstaged content of such files with git diff and committing them with git commit -a.
+git add -N
+git add --intent-to-add
 
 # git commit: saves the changes made to any file in the staging area inside the repository
 git commit
@@ -232,8 +235,55 @@ git diff --name-only
 git diff -U3
 git diff --unified=3
 
-# git apply: Apply a patch to files and/or to the index. Reads the supplied diff output (i.e. "a patch") and applies it to files. The command applies the patch only to files, and does not require them to be in a Git repository, this command applies the patch but does not create a commit. When running from a subdirectory in a repository, patched paths outside the directory are ignored.
+# git apply: Apply a patch to files and/or to the index. Reads the supplied diff output (i.e. "a patch") and applies it to files. By default, the command applies the patch only to files, and does not require them to be in a Git repository, this command applies the patch but does not create a commit. When running from a subdirectory in a repository, patched paths outside the directory are ignored.
 git apply patch_file.patch
+git apply -  #  "-" can be used to read from the standard input.
+# --stat: Instead of applying the patch, output diffstat for the input. Turns off "apply".
+git apply --stat patch_file.patch
+# --numstat: Similar to --stat, but shows the number of added and deleted lines in decimal notation and the pathname without abbreviation, to make it more machine friendly. For binary files, outputs two "-" instead of saying 0 0. Turns off "apply".
+git apply --numstat patch_file.patch
+# --summary: Instead of applying the patch, output a condensed summary of information obtained from git diff extended headers, such as creations, renames and mode changes. Turns off "apply".
+git apply --summary patch_file.patch
+# --check: Instead of applying the patch, see if the patch is applicable to the current working tree and/or the index file and detects errors. Turns off "apply".
+git apply --check patch_file.patch
+# --index: Apply the patch to both the index and the working tree (or merely check that it would apply cleanly to both if --check is in effect). Note that --index expects index entries and working tree copies for relevant paths to be identical (their contents and metadata such as file mode must match), and will raise an error if they are not, even if the patch would apply cleanly to both the index and the working tree in isolation.
+git apply --index patch_file.patch
+# --cached: Apply the patch to just the index, without touching the working tree. If --check is in effect, merely check that it would apply cleanly to the index entry.
+git apply --cached patch_file.patch
+# --intent-to-add: When applying the patch only to the working tree, mark new files to be added to the index later. This option is ignored unless running in a Git repository and --index is not specified. Note that --index could be implied by other options such as --cached or --3way.
+git apply --intent-to-add patch_file.patch
+# -R, --reverse: Apply the patch in reverse.
+git apply -R patch_file.patch
+git apply --reverse patch_file.patch
+# --reject: For atomicity, git apply by default fails the whole patch and does not touch the working tree when some of the hunks do not apply. This option makes it apply the parts of the patch that are applicable, and leave the rejected hunks in corresponding *.rej files.
+git apply --reject patch_file.patch
+# -p<n>: Remove <n> leading path components (separated by slashes) from traditional diff paths. The default is 1.
+git apply -p patch_file.patch
+git apply -p2 patch_file.patch  # with -p2, a patch against a/dir/file.txt will be applied directly to "file.txt"
+# --unidiff-zero: By default, git apply expects that the patch being applied is a unified diff with at least one line of context. This provides good safety measures, but breaks down when applying a diff generated with --unified=0. To bypass these checks use --unidiff-zero. For these reasons the usage of context-free patches is discouraged.
+git apply --unidiff-zero patch_file.patch
+# --apply: If you use any of the options marked "Turns off apply", git apply reads and outputs the requested information without actually applying the patch. Give this flag after those flags to also apply the patch.
+git apply --check --apply patch_file.patch
+# --no-add: When applying a patch, ignore additions made by the patch. This can be used to extract the common part between two files by first running diff on them and applying the result with this option, which would apply the deletion part but not the addition part.
+git apply --no-add patch_file.patch
+# --exclude=<path-pattern>: Don’t apply changes to files matching the given path pattern. This can be useful when importing patchsets, where you want to exclude certain files or directories.
+git apply --exclude=string_pattern patch_file.patch
+# --include=<path-pattern>: Apply changes to files matching the given path pattern. This can be useful when importing patchsets, where you want to include certain files or directories. When --exclude and --include patterns are used, they are examined in the order they appear on the command line, and the first match determines if a patch to each path is used. A patch to a path that does not match any include/exclude pattern is used by default if there is no include pattern on the command line, and ignored if there is any include pattern.
+git apply --include=string_pattern patch_file.patch
+# -3, --3way: Attempt 3-way merge if the patch records the identity of blobs it is supposed to apply to and we have those blobs available locally, possibly leaving the conflict markers in the files in the working tree for the user to resolve. This option implies the --index option unless the --cached option is used, and is incompatible with the --reject option. When used with the --cached option, any conflicts are left at higher stages in the cache.
+git apply -3 patch_file.patch
+git apply --3way patch_file.patch
+# --directory=<root>: Prepend <root> to all filenames. If a "-p" argument was also passed, it is applied before prepending the new root. For example, a patch that talks about updating a/git-gui.sh to b/git-gui.sh can be applied to the file in the working tree "modules/git-gui/git-gui.sh" by running "git apply --directory=modules/git-gui".
+git apply --directory=directory_name patch_file.patch
+# --unsafe-paths: By default, a patch that affects outside the working area (either a Git controlled working tree, or the current working directory when "git apply" is used as a replacement of GNU patch) is rejected as a mistake (or a mischief). When git apply is used as a "better GNU patch", the user can pass the --unsafe-paths option to override this safety check. This option has no effect when --index or --cached is in use.
+git apply --unsafe-paths patch_file.patch
+
+# git format-patch: Prepare patches for e-mail submission
+git format-patch -3
+
+# git am: Apply a series of patches from a mailbox. Splits mail messages in a mailbox into commit log message, authorship information and patches, and applies them to the current branch.
+git am patch_file.patch
+git am *.patch  #  If you have multiple patch files (like those generated by git format-patch), you can apply them all at once
 
 # git log: Shows the commit logs. List commits that are reachable by following the parent links from the given commits, but exclude commits that are reachable from the ones given with a ^ in front of them. The output is given in reverse chronological order by default. Shows all the changes made to a file
 git log
