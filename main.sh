@@ -507,6 +507,8 @@ git config -l
 git config --list
 # --show-origin: Augment the output of all queried config options with the origin type (file, standard input, blob, command line) and the actual origin (config file path, ref, or blob id if applicable)
 git config -l --show-origin
+# Each Git repository can have its own .gitignore file located at the root of the repository or you can also set up a global .gitignore file that applies to all repositories on your system
+git config --global core.excludesfile ~/.gitignore_global
 
 # git branch: List, create, or delete branches. If --list is given, or if there are no non-option arguments, existing branches are listed; the current branch will be highlighted in green and marked with an asterisk. Any branches checked out in linked worktrees will be highlighted in cyan and marked with a plus sign.
 git branch
