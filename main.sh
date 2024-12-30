@@ -983,6 +983,7 @@ git clean -df
 # git cherry-pick: Apply the changes introduced by some existing commits. Given one or more existing commits, apply the change each one introduces, recording a new commit for each. This requires your working tree to be clean (no modifications from the HEAD commit).
 git cherry-pick commit_hash
 git cherry-pick commit_hash1 commit_hash2
+git cherry-pick first_commit_hash..last_commit_hash
 git cherry-pick branch_name # this takes the HEAD of the chosen branch
 # -e, --edit: With this option, git cherry-pick will let you edit the commit message prior to committing
 git cherry-pick -e commit_hash
