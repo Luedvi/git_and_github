@@ -1185,6 +1185,9 @@ git bisect start
 git bisect bad
 git bisect good v2.6.13-rc2
 
+# git filter-branch: Lets you rewrite Git revision history by rewriting the branches mentioned in the <rev-list options>, applying custom filters on each revision.
+git filter-branch
+git filter-branch --force --index-filter "git rm --cached --ignore-unmatch **path/to/file_name.txt** " --prune-empty --tag-name-filter cat -- --all
 # https://www.toptal.com/developers/gitignore
 
 # https://github.com/github/gitignore
