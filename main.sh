@@ -1194,8 +1194,9 @@ git filter-branch --force --index-filter "git rm --cached --ignore-unmatch **pat
 # git gc: Cleanup unnecessary files and optimize the local repository. Runs a number of housekeeping tasks within the current repository, such as compressing file revisions (to reduce disk space and increase performance), removing unreachable objects which may have been created from prior invocations of git add, packing refs, pruning reflog, rerere metadata or stale working trees. May also update ancillary indexes such as the commit-graph.
 git gc
 
-# to show the branch in the terminal prompt we write this in the ~/.bashrc file
+# to show the branch in the terminal prompt we can write either of this lines in the ~/.bashrc file
 PS1='\u@\h\[\033[01;34m\] \w\[\033[0;32m\]$(__git_ps1 " (%s)")\[\033[01;34m\]$\[\033[00m\] '
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[00m\]\$ '
 
 # https://www.toptal.com/developers/gitignore
 
