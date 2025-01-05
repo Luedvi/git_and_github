@@ -1010,6 +1010,8 @@ git cherry-pick --no-commit commit_hash1 commit_hash2
 # git reflog: Manage reflog information. The "show" subcommand is the default in the absence of any subcommands, shows the log of the reference provided in the command-line (or HEAD, by default). The reflog covers all recent actions, and in addition the HEAD reflog records branch switching. git reflog show is an alias for "git log -g --abbrev-commit --pretty=oneline". It accepts any of the options accepted by "git log"
 git reflog
 git reflog branch_name
+git reflog file_name.txt
+git reflog -- file_name.txt
 
 git reflog show
 git reflog show reference_name
