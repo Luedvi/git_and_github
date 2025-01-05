@@ -1190,6 +1190,10 @@ git bisect good v2.6.13-rc2
 # git filter-branch: Lets you rewrite Git revision history by rewriting the branches mentioned in the <rev-list options>, applying custom filters on each revision.
 git filter-branch
 git filter-branch --force --index-filter "git rm --cached --ignore-unmatch **path/to/file_name.txt** " --prune-empty --tag-name-filter cat -- --all
+
+# git gc: Cleanup unnecessary files and optimize the local repository. Runs a number of housekeeping tasks within the current repository, such as compressing file revisions (to reduce disk space and increase performance), removing unreachable objects which may have been created from prior invocations of git add, packing refs, pruning reflog, rerere metadata or stale working trees. May also update ancillary indexes such as the commit-graph.
+git gc
+
 # https://www.toptal.com/developers/gitignore
 
 # https://github.com/github/gitignore
