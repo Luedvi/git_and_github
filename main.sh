@@ -582,6 +582,9 @@ git show-branch --remotes
 git show-branch -a
 git show-branch --all
 
+# git-merge-base: Find as good common ancestors as possible for a merge, One common ancestor is better than another common ancestor if the latter is an ancestor of the former. A common ancestor that does not have any better common ancestor is a best common ancestor, i.e. a merge base.
+git merge-base commit_hash1 commit_hash2 commit_hash3
+
 # git merge: Join two or more development histories together
 git merge branch_name
 git merge repository_alias/branch_name
@@ -622,6 +625,7 @@ git rebase 45ab25 feature1
 #-i, --interactive: Make a list of the commits which are about to be rebased. Let the user edit that list before rebasing. This mode can also be used to split commits
 git rebase -i branch name
 git rebase -i HEAD~3
+git rebase -i $(git merge-base $(git branch --show-current) master)
 # First we rebase the branch where we make the changes, we can delete that branch later if we want, next we rebase the branch where we will keep the changes. we should only use this command in local repositories, doing it in remote repositories is a bad practice
 git checkout disposable_branch
 git rebase main
