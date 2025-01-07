@@ -72,7 +72,10 @@ git commit --dry-run
 git commit --status
 # --no-status: Do not include the output of git-status(1) in the commit message template when using an editor to prepare the default commit message
 git commit --no-status
-
+# -v, --verbose: Show unified diff between the HEAD commit and what would be committed at the bottom of the commit message template to help the user describe the commit by reminding what changes the commit has. If specified twice, show in addition the unified diff between what would be committed and the worktree files, i.e. the unstaged changes to tracked files.
+git commit -v
+git commit --verbose
+git commit -vv
 # git restore: Restore specified paths in the working tree with some contents from a restore source. If a path is tracked but does not exist in the restore source, it will be removed to match the source. The command can also be used to restore the content in the index with --staged, or restore both the working tree and the index with --staged --worktree. By default, if --staged is given, the contents are restored from HEAD, otherwise from the index. Use --source to restore from a different commit.
 git restore file_name file_name2 # If no option is specified, by default the working tree is restored
 #  -W, --worktree: restore the content in the working tree from the index
