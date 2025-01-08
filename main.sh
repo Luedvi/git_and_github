@@ -48,6 +48,7 @@ git commit --message="some message"
 git commit -am "some message"
 # --amend: Replace the tip of the current branch by creating a new commit. The recorded tree is prepared as usual (including the effect of the -i and -o options and explicit pathspec), and the message from the original commit is used as the starting point, instead of an empty message, when no other message is specified from the command line via options such as -m, -F, -c, etc. The new commit has the same parents and author as the current one (the --reset-author option can countermand this). If we want to add some changes to the files we have to add them to staging with "git add" before calling the --amend option
 git commit --amend
+git commit -all --amend
 git commit --amend -m "some message"
 # -C <commit>, --reuse-message=<commit>: Take an existing commit object, and reuse the log message and the authorship information (including the timestamp) when creating the commit
 git commit -C commit_hash
@@ -68,14 +69,15 @@ git commit --amend -C commit_hash --edit
 git commit -m "message" --edit
 # --dry-run: Do not create a commit, but show a list of paths that are to be committed, paths with local changes that will be left uncommitted and paths that are untracked
 git commit --dry-run
-# --status: Include the output of git-status(1) in the commit message template when using an editor to prepare the commit message. Defaults to on, but can be used to override configuration variable "commit.status"
+# --status: Include the output of git-status in the commit message template when using an editor to prepare the commit message. Defaults to on, but can be used to override configuration variable "commit.status"
 git commit --status
-# --no-status: Do not include the output of git-status(1) in the commit message template when using an editor to prepare the default commit message
+# --no-status: Do not include the output of git-status in the commit message template when using an editor to prepare the default commit message
 git commit --no-status
 # -v, --verbose: Show unified diff between the HEAD commit and what would be committed at the bottom of the commit message template to help the user describe the commit by reminding what changes the commit has. If specified twice, show in addition the unified diff between what would be committed and the worktree files, i.e. the unstaged changes to tracked files.
 git commit -v
 git commit --verbose
 git commit -vv
+
 # git restore: Restore specified paths in the working tree with some contents from a restore source. If a path is tracked but does not exist in the restore source, it will be removed to match the source. The command can also be used to restore the content in the index with --staged, or restore both the working tree and the index with --staged --worktree. By default, if --staged is given, the contents are restored from HEAD, otherwise from the index. Use --source to restore from a different commit.
 git restore file_name file_name2 # If no option is specified, by default the working tree is restored
 #  -W, --worktree: restore the content in the working tree from the index
