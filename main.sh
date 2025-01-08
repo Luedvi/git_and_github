@@ -708,6 +708,7 @@ git push origin :v0.1
 #-u, --set-upstream: For every branch that is up to date or successfully pushed, add upstream (tracking) reference, used by argument-less git-pull and other commands
 git push -u repository_alias branch_name
 git push --set-upstream origin main
+git push -u origin +branch_name
 # --all: Push all branches (i.e. refs under refs/heads/); cannot be used with other <refspec>.
 git push repository_alias --all
 #--prune: Remove remote branches that don’t have a local counterpart.
