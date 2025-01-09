@@ -1064,6 +1064,11 @@ git grep --line-number "regex_pattern"
 # -c, --count: Instead of showing every matched line, show the number of lines that match
 git grep -c regex_pattern
 git grep --count "regex_pattern"
+# -i, --ignore-case: Ignore case differences between the patterns and the files.
+git grep -i regex_pattern
+git grep --ignore-case regex_pattern
+# --untracked: In addition to searching in the tracked files in the working tree, search also in untracked files.
+git grep --untracked regex_pattern
 
 # git blame: Show what revision and author last modified each line of a file. Annotates each line in the given file with information from the revision which last modified the line. Optionally, start annotating from the given revision.
 git blame file_name
