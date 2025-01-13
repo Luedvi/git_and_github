@@ -355,20 +355,28 @@ git log -g --pretty=reference
 git log -g --abbrev-commit --pretty=oneline
 # --reflog: Pretend as if all objects mentioned by reflogs are listed on the command line as <commit>
 git log --reflog
+# --grep-reflog=<pattern>: Limit the commits output to ones with reflog entries that match the specified pattern (regular expression). With more than one --grep-reflog, commits whose reflog message matches any of the given patterns are chosen. It is an error to use this option unless --walk-reflogs is in use.
+git log --walk-reflogs --grep-reflog="regex_pattern"
 # --single-worktree: By default, all working trees will be examined by the following options when there are more than one: --all, --reflog and --indexed-objects. This option forces them to examine the current working tree only.
 git log --single-worktree
 # -S<string>: Look for differences that change the number of occurrences of the specified string (i.e. addition/deletion) in a file. Intended for the scripter’s use. It is useful when you’re looking for an exact block of code (like a struct), and want to know the history of that block since it first came into being: use the feature iteratively to feed the interesting block in the preimage back into -S, and keep going until you get the very first version of the block. Binary files are searched as well.
 git log -S string_pattern
 git log -S "string_pattern_in_file"
+# --pickaxe-regex: Treat the <string> given to -S as an extended POSIX regular expression to match
+git log -S regex_pattern --pickaxe-regex
 # -G<regex>: Look for differences whose patch text contains added/removed lines that match <regex>.
 git log -G regex_pattern
 git log -G "regex_pattern_in_file"
+# --pickaxe-all: When -S or -G finds a change, show all the changes in that changeset, not just the files that contain the change in <string>.
+git log -S string_pattern --pickaxe-all
+git log -G regex_pattern --pickaxe-all
 # --author=<pattern>, --committer=<pattern>: Limit the commits output to ones with author/committer header lines that match the specified pattern (regular expression). With more than one --author=<pattern>, commits whose author matches any of the given patterns are chosen (similarly for multiple --committer=<pattern>).
 git log --author="commiter_name"
 # --grep=<pattern>: Limit the commits output to ones with log message that matches the specified pattern (regular expression). With more than one --grep=<pattern>, commits whose message matches any of the given patterns are chosen (but see --all-match).
 git log --grep="regex_pattern"
+git log --grep regex_pattern
 # --all-match: Limit the commits output to ones that match all given --grep, instead of ones that match at least one.
-git log --all-match --grep="regex_pattern"
+git log --all-match --grep="regex_pattern" --grep="regex_pattern"
 # --invert-grep: Limit the commits output to ones with log message that do not match the pattern specified with --grep=<pattern>.
 git log --invert-grep --grep="regex_pattern"
 # -i, --regexp-ignore-case: Match the regular expression limiting patterns without regard to letter case.
@@ -1058,9 +1066,21 @@ git reflog delete -n HEAD@{3}
 
 # git grep: Print lines matching a pattern. Look for specified patterns in the tracked files in the work tree, blobs registered in the index file, or blobs in given tree objects. Patterns are lists of one or more search expressions separated by newline characters. An empty string as search expression matches all lines
 git grep regex_pattern
+# -w, --word-regexp: Match the pattern only at word boundary (either begin at the beginning of a line, or preceded by a non-word character; end at the end of a line or followed by a non-word character).
+git grep -w regex_pattern
+git grep --word-regexp regex_pattern
+# --no-index: Search files in the current directory that is not managed by Git.
+git grep --no-index regex_pattern
+# --exclude-standard: Do not pay attention to ignored files specified via the .gitignore mechanism. Only useful when searching files in the current directory with --no-index.
+git grep --no-index --exclude-standard regex_pattern
+# -v, --invert-match: Select non-matching lines.
+git grep -v regex_pattern
+git grep --invert-match regex_pattern
 # -n, --line-number: Prefix the line number to matching lines
 git grep -n regex_pattern
 git grep --line-number "regex_pattern"
+#--column: Prefix the 1-indexed byte-offset of the first match from the start of the matching line.
+git grep --column regex_pattern
 # -c, --count: Instead of showing every matched line, show the number of lines that match
 git grep -c regex_pattern
 git grep --count "regex_pattern"
@@ -1069,6 +1089,14 @@ git grep -i regex_pattern
 git grep --ignore-case regex_pattern
 # --untracked: In addition to searching in the tracked files in the working tree, search also in untracked files.
 git grep --untracked regex_pattern
+# --no-exclude-standard: Also search in ignored files by not honoring the .gitignore mechanism. Only useful with --untracked.
+git grep --untracked --no-exclude-standard regex_pattern
+# -l, --files-with-matches, --name-only, -L, --files-without-match: Instead of showing every matched line, show only the names of files that contain (or do not contain) matches. For better compatibility with git diff, --name-only is a synonym for --files-with-matches.
+git grep -l regex_pattern
+git grep --files-with-matches regex_pattern
+git grep --name-only regex_pattern
+git grep -L regex_pattern
+git grep --files-without-match regex_pattern
 
 # git blame: Show what revision and author last modified each line of a file. Annotates each line in the given file with information from the revision which last modified the line. Optionally, start annotating from the given revision.
 git blame file_name
