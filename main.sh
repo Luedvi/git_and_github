@@ -375,6 +375,7 @@ git log --author="commiter_name"
 # --grep=<pattern>: Limit the commits output to ones with log message that matches the specified pattern (regular expression). With more than one --grep=<pattern>, commits whose message matches any of the given patterns are chosen (but see --all-match).
 git log --grep="regex_pattern"
 git log --grep regex_pattern
+git log --all --oneline | grep "regex_pattern" # this is also an effective option
 # --all-match: Limit the commits output to ones that match all given --grep, instead of ones that match at least one.
 git log --all-match --grep="regex_pattern" --grep="regex_pattern"
 # --invert-grep: Limit the commits output to ones with log message that do not match the pattern specified with --grep=<pattern>.
@@ -1097,6 +1098,9 @@ git grep --files-with-matches regex_pattern
 git grep --name-only regex_pattern
 git grep -L regex_pattern
 git grep --files-without-match regex_pattern
+# -o, --only-matching: Print only the matched (non-empty) parts of a matching line, with each such part on a separate output line.
+git grep -o regex_pattern
+git grep --only-matching regex_pattern
 
 # git blame: Show what revision and author last modified each line of a file. Annotates each line in the given file with information from the revision which last modified the line. Optionally, start annotating from the given revision.
 git blame file_name
