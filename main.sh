@@ -1067,6 +1067,8 @@ git reflog delete -n HEAD@{3}
 
 # git grep: Print lines matching a pattern. Look for specified patterns in the tracked files in the work tree, blobs registered in the index file, or blobs in given tree objects. Patterns are lists of one or more search expressions separated by newline characters. An empty string as search expression matches all lines
 git grep regex_pattern
+git grep regex_pattern file_name
+git grep regex_pattern -- file_name1 file_name2
 # -w, --word-regexp: Match the pattern only at word boundary (either begin at the beginning of a line, or preceded by a non-word character; end at the end of a line or followed by a non-word character).
 git grep -w regex_pattern
 git grep --word-regexp regex_pattern
