@@ -1109,6 +1109,17 @@ git blame file_name
 # -c: Use the same output mode as "git annotate" (Default: off)
 git blame file_name -c
 git annotate file_name
+# -e, --show-email: Show the author email instead of author name (Default: off). This can also be controlled via the blame.showEmail config option.
+git blame -e file_name
+git blame --show-email file_name
+# -M[<num>]: Detect moved or copied lines within a file. When a commit moves or copies a block of lines (e.g. the original file has A and then B, and the commit changes it to B and then A), the traditional blame algorithm notices only half of the movement and typically blames the lines that were moved up (i.e. B) to the parent and assigns blame to the lines that were moved down (i.e. A) to the child commit. With this option, both groups of lines are blamed on the parent by running extra passes of inspection. <num> is optional but it is the lower bound on the number of alphanumeric characters that Git must detect as moving/copying within a file for it to associate those lines with the parent commit. The default value is 20.
+git blame -M file_name
+git blame -M4 file_name
+# -C[<num>]: In addition to -M, detect lines moved or copied from other files that were modified in the same commit. This is useful when you reorganize your program and move code around across files. When this option is given twice, the command additionally looks for copies from other files in the commit that creates the file. When this option is given three times, the command additionally looks for copies from other files in any commit. <num> is optional but it is the lower bound on the number of alphanumeric characters that Git must detect as moving/copying between files for it to associate those lines with the parent commit. And the default value is 40. If there are more than one -C options given, the <num> argument of the last -C will take effect.
+git blame -C file_name
+git blame -C3 file_name
+git blame -CC file_name
+git blame -CCC5 file_name
 # -L <start>,<end>, -L :<funcname> Annotate only the line range given by <start>,<end>, or by the function name regex <funcname>. With regex form it will use the first line matching the given POSIX regex. -L option may be specified multiple times. Overlapping ranges are allowed
 git blame file_name -L start_range,end_range
 git blame file_name -L :regex_pattern
